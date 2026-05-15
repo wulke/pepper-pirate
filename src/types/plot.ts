@@ -2,8 +2,8 @@ import type { PlantId, PlotId } from "./plant.js";
 
 export type { PlotId };
 
-/** Unique identifier for a Soil record (1:1 with Plot). */
-export type SoilId = string;
+/** Unique identifier for a Soil record. Aliased to PlotId — Soil and Plot share the same ID in V1's 1:1 relationship. */
+export type SoilId = PlotId;
 
 /**
  * How well a plot supports a plant at a particular growth stage.

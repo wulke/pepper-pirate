@@ -29,6 +29,7 @@ const ENTITY_MAP = {
   FRUIT: { typeName: "Fruit",      file: "src/types/fruit.ts" },
   PLOT:  { typeName: "Plot",       file: "src/types/plot.ts"  },
   SOIL:  { typeName: "Soil",       file: "src/types/soil.ts"  },
+  // TODO: add SEASON entry when src/types/season.ts is created (Gap 1 from PR #1 review)
 };
 
 /**

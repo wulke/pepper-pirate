@@ -72,6 +72,7 @@ erDiagram
         string      stage                   "developing | ripening | ripe | overripe"
         float       progress                "0–1 within current stage"
         int         grownAtSeason
+        int         harvestedAtTick             "null until harvested; key timing field for Gap 3 (Tick vs Day)"
         string      status                  "growing | ready | harvested | sold | processed | discarded"
         bool        seedsExtracted
         int         estimatedSeedCount
