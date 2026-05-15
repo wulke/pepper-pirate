@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:erd": "node scripts/validate-erd.mjs"
   },
   "devDependencies": {
     "typescript": "^5.4.0",

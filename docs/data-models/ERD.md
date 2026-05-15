@@ -54,7 +54,7 @@ erDiagram
         NodeId      femaleNodeId        FK  "cross_male only: pollen recipient node"
         string      status                  "budding | flowering | pollination_window | pollinated | fruiting | harvested | spent"
         float       progress                "0–1 within current status"
-        string      pollinationType         "pending | self | cross_female | cross_male"
+        string      type                    "pending | self | cross_female | cross_male (nested under pollination)"
         int         appearedAtTick
         int         pollinationWindowStart  "optional"
         int         pollinationWindowEnd    "optional; self-pollinates at close"
