@@ -135,14 +135,28 @@ export type Seed = {
   /**
    * This seed's own genetic identity. Determined at fruit-grow time; unique per seed even among siblings.
    * Sibling spread is tight when the parent line is stable, wide when unstable.
-   *
-   * NOTE: soilAffinity is excluded from PR 0 — gated on F-SOIL-001 approval (see BUILD-PLAN § PR 0).
-   * SEED.md includes soilAffinity in its shape, but the formula PR (F1) will formally add it here
-   * alongside the registry promotion.
-   *
    * @remarks F-FRUIT-001 provides the fruit-level traitBaseline. F-SEED-001 applies per-seed variance.
+   * F-SOIL-001 reads soilAffinity as the runtime source of truth for soil-seed fit evaluation.
    */
   genetics: {
+    /**
+     * Soil preference profile used at runtime by F-SOIL-001 to compute soilModifier.
+     * Values are in natural units (pH) or 0–1 (nutrients, moisture).
+     * Set at seed creation from parent genetics; does not change during the seed's lifetime.
+     * @remarks Read by F-SOIL-001 as Seed.genetics.soilAffinity.*.
+     */
+    soilAffinity: {
+      /** Preferred soil pH in natural units (e.g. 6.4). F-SOIL-001 normalizes to [0,1] internally. */
+      preferredPh: number;
+      /** 0–1. Preferred nitrogen level. */
+      preferredNitrogen: number;
+      /** 0–1. Preferred phosphorus level. */
+      preferredPhosphorus: number;
+      /** 0–1. Preferred potassium level. */
+      preferredPotassium: number;
+      /** 0–1. Preferred soil moisture level. */
+      preferredMoisture: number;
+    };
     /** Per-trait genome records. Only traits actually resolved are present; others are absent from the Partial map. */
     traitGenome: Partial<Record<TraitKey, TraitGenome>>;
     /** 0–1. Summary of overall trait-level stability across this seed's genome. */

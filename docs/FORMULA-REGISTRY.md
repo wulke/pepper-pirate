@@ -106,7 +106,7 @@ flowchart TD
 
 ### F-SOIL-001 — Soil Modifier
 
-- Status: `draft`
+- Status: `approved`
 - Category: `interaction`
 - Owner: [LIFECYCLE-FORMULAS.md](./LIFECYCLE-FORMULAS.md#soil-seed-affinity)
 - Reads:
