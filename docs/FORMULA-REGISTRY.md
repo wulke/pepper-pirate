@@ -96,6 +96,10 @@ flowchart TD
   FFRUITBASE --> FSEEDVAR
   FTRANS --> FHEALTH
   FSEEDVAR --> FRARITY
+
+  FSEASONEFF[F-SEASON-001 Season Efficiency Score]
+  FPRESTIGE[F-PRESTIGE-001 Prestige Score — concept]
+  FSEASONEFF --> FPRESTIGE
 ```
 
 ## Active Registry
@@ -514,6 +518,59 @@ Notes:
 Open Questions:
 - What is the exact elevation threshold model for V1?
 - Is there a hard cap on how far rarity can elevate above archetype baseline?
+
+### F-SEASON-001 — Season Efficiency Score
+
+- Status: `draft`
+- Category: `derived`
+- Owner: `docs/specs/SEASON.md`
+- Reads:
+  - `Season.selectedLength` — the tier the player committed to (`short | standard | long | boss`)
+  - `Season.totalDays` — configured day count for the selected tier
+  - `Season.daysUsed` — number of Days the player advanced before completing the Contract
+- Writes / Influences:
+  - `efficiencyScore` — fed into the Prestige Score calculation (formula TBD)
+- Depends On:
+  - none
+- Used By:
+  - future `F-PRESTIGE-001`
+- Trigger:
+  - On season completion (Contract objectives met)
+
+Definition:
+
+```text
+daysRemaining = Season.totalDays - Season.daysUsed
+
+ratioComponent      = (daysRemaining / Season.totalDays) * RATIO_WEIGHT
+multiplierComponent = TIER_BONUS[Season.selectedLength] * MULTIPLIER_WEIGHT
+
+efficiencyScore = ratioComponent + multiplierComponent
+```
+
+Config defaults (all tunable via playtesting):
+
+```text
+RATIO_WEIGHT      = 1.0
+MULTIPLIER_WEIGHT = 0.0   // set to 0 initially; collapses formula to ratio-only
+
+TIER_BONUS = {
+  short:    0.25,
+  standard: 0.00,
+  long:    -0.10,
+  boss:     0.00   // boss length is fixed; no bonus/penalty for something the player didn't choose
+}
+```
+
+Notes:
+- Setting `MULTIPLIER_WEIGHT = 0` collapses to pure ratio: completion speed relative to available Days is the only signal.
+- Setting `RATIO_WEIGHT = 0` collapses to flat tier bonus: only the length choice matters, not how efficiently the player used it.
+- Short sessions reward efficiency on both levers when both weights are non-zero — do not double-count during playtesting until ratio behavior is understood first.
+- Boss tier is excluded from `TIER_BONUS` upside because its length is player-dictated by the game, not a player choice.
+
+Open Questions:
+- What is the intended `efficiencyScore` range, and how does it map onto the final Prestige Score scale?
+- What is the intended `efficiencyScore` range, and how does it map onto the final Prestige Score scale? In-Day action quality feeds the score through growth and breeding outcomes, not through this formula.
 
 ## Maintenance Rules
 
