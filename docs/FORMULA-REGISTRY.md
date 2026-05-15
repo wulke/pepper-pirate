@@ -453,7 +453,7 @@ Open Questions:
 
 ### F-SEED-002 — Seed Viability Decay
 
-- Status: `draft`
+- Status: `approved`
 - Category: `progression`
 - Owner: [SEED.md](./data-models/SEED.md#state)
 - Reads:
