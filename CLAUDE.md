@@ -37,3 +37,12 @@ Treat [docs/FORMULA-REGISTRY.md](./docs/FORMULA-REGISTRY.md) as the absolute sou
 - Data models: Include goals, TS shape, rationale, and formula registry notes.
 - Formulas: Use template in [FORMULA-REGISTRY.md](./docs/FORMULA-REGISTRY.md#formula-template) (ID: `F-DOMAIN-NNN`).
 - Cross-reference with relative links. Check for formula participation when changing fields.
+
+### TypeScript Documentation (JSDoc)
+Every exported type, interface, and field in `src/types/` **must** have a JSDoc comment. The owner re-contextualizes each session from scratch — JSDoc is load-bearing, not optional decoration.
+
+Rules:
+- **Type-level:** One-sentence summary of what this object IS and its role in the system (e.g. "The runtime growth instance for a planted seed. Owns health, tending state, and node references.")
+- **Field-level:** One short phrase explaining the field's purpose. For nullable/optional fields, say when null/absent means. For `0–1` numeric fields, say what the bounds represent.
+- **Formula fields:** Note the formula ID that reads or writes this field (e.g. `@remarks Consumed by F-SOIL-001`).
+- Do not restate the TypeScript type in prose ("a string ID" is redundant). Say what the value *means*.
