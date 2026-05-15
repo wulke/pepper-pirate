@@ -146,6 +146,8 @@ Notes:
 - `pH` is a gatekeeper and multiplies against the nutrient/moisture result.
 - All factor comparisons assume normalized values before delta calculation.
 - Individual factor modifiers cap at `1.0` in V1.
+- `DEFAULT_TOLERANCE = 0.30` is used by the GROW-001 planting compatibility gate when `hardiness` or `droughtResistance` traits are absent from the seed's genome. This places the seed in the "typical" tolerance band from the proposal.
+- `Soil.conditions.moistureLevel` contributes to the per-tick `soilModifier` passed to F-GROWTH-001, but is **not** evaluated by the GROW-001 planting compatibility gate. Moisture is excluded from the gate because it is dynamic — it changes each watering tick and is corrected by tending, not by seed or plot selection.
 
 Open Questions:
 - What is the minimum behavior at `soilModifier = 0.0`?
