@@ -14,13 +14,19 @@ export type PlotId = string;
  * Applied by events (pests, weather, tending mini-games) and removed when resolved or expired.
  */
 export type StatusEffect = {
-  /** The category of effect. Negative effects degrade health; positive effects boost it. */
+  /**
+   * The category of effect. Negative effects degrade health; positive effects boost it.
+   * Weather event types (storm_damage, flooding, drought_stress, cold_damage, heat_damage) are
+   * gated by Zone character — arid Zones draw from drought/heat; rainy Zones from storm/flooding.
+   */
   type:
     | "pest"
     | "disease"
     | "drought_stress"
     | "cold_damage"
     | "heat_damage"
+    | "storm_damage"
+    | "flooding"
     | "tending_bonus"
     | "mini_game_bonus";
   /** 0–1. How strongly this effect is currently acting on the plant. */

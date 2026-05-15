@@ -93,7 +93,9 @@ export type Plot = {
     airflow: number;
     /**
      * 0–1. How much external weather affects this plot. 0 = fully enclosed; 1 = fully exposed.
-     * V1 placeholder — weather system is V2.
+     * Zone-level weather events (storms, flooding, drought, heat spikes) are V1 and fire based on Zone character.
+     * This field becomes active in V2 when per-plot weather differentiation is implemented — in V1,
+     * all plots in a Zone are equally exposed to the Zone's event pool.
      */
     weatherExposure: number;
   };
