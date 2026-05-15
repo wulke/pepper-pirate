@@ -153,7 +153,7 @@ Open Questions:
 
 ### F-TEND-001 — Tending Modifier
 
-- Status: `draft`
+- Status: `approved`
 - Category: `interaction`
 - Owner: [LIFECYCLE-FORMULAS.md](./LIFECYCLE-FORMULAS.md#growth-modifier-formula)
 - Reads:
