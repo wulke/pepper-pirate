@@ -333,7 +333,7 @@ Open Questions:
 
 ### F-FRUIT-001 — Fruit Genetic Baseline Resolution
 
-- Status: `draft`
+- Status: `approved`
 - Category: `resolution`
 - Owner: [FRUIT.md](./data-models/FRUIT.md#seed-generation)
 - Reads:
@@ -446,6 +446,7 @@ For each new seed:
 Notes:
 - Sibling seeds share a baseline but diverge as individual genetic instances.
 - This is one of the most important formulas for preserving the game's bloodline identity.
+- Downstream contract from F-FRUIT-001: per-trait seed variance should be capped as `traitVarianceCap = varianceRange * (1 - 0.5 * traitBaseline[trait].stability)`, so stable traits drift less than unstable ones within the same fruit-level variance band.
 
 Open Questions:
 - Is variance applied uniformly across traits or weighted by trait-specific stability?
