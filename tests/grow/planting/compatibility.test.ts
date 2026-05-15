@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { checkCompatibility } from '../../../src/grow/planting/checkCompatibility.js';
-import { baseSeed, phMismatchSeed, npkMismatchSeed, neutralSoil } from './fixtures.js';
+import { baseSeed, phMismatchSeed, npkMismatchSeed, partialNpkMismatchSeed, neutralSoil } from './fixtures.js';
 
 describe('GROW-001', () => {
   it('rejects an incompatible seed without advancing its state', () => {
@@ -46,6 +46,12 @@ describe('GROW-002', () => {
 describe('GROW-001 compatible path', () => {
   it('returns compatible when seed affinity matches soil conditions', () => {
     const result = checkCompatibility(baseSeed, neutralSoil);
+    expect(result.outcome).toBe('compatible');
+  });
+
+  it('returns compatible when only one nutrient is out of range (averaging, not min)', () => {
+    // nutrientMod = (kMod=0 + nMod=1 + pMod=1) / 3 = 0.67 — not a blocking zero
+    const result = checkCompatibility(partialNpkMismatchSeed, neutralSoil);
     expect(result.outcome).toBe('compatible');
   });
 });

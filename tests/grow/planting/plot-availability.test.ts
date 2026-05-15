@@ -8,10 +8,10 @@ describe('GROW-003', () => {
     expect(result.outcome).toBe('no_open_plots');
   });
 
-  it('presents a purchase-or-unlock option in the no-open-plots result', () => {
+  it('returns nextAction: purchase in the no-open-plots result for V1', () => {
     const result = plotAvailability([fullPlot]);
     if (result.outcome === 'no_open_plots') {
-      expect(['purchase', 'unlock']).toContain(result.nextAction);
+      expect(result.nextAction).toBe('purchase');
     }
   });
 
@@ -24,5 +24,8 @@ describe('GROW-003', () => {
   it('returns a plot-available result when at least one plot has an open slot', () => {
     const result = plotAvailability([fullPlot, emptyPlot]);
     expect(result.outcome).toBe('plot_available');
+    if (result.outcome === 'plot_available') {
+      expect(result.plotId).toBe(emptyPlot.id);
+    }
   });
 });
