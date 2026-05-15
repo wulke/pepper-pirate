@@ -82,6 +82,9 @@ export function checkCompatibility(seed: Seed, soil: Soil): CheckCompatibilityRe
   const nMod = factorModifier(Math.abs(soil.nutrients.nitrogen - affinity.preferredNitrogen), tolerance);
   const pMod = factorModifier(Math.abs(soil.nutrients.phosphorus - affinity.preferredPhosphorus), tolerance);
   const kMod = factorModifier(Math.abs(soil.nutrients.potassium - affinity.preferredPotassium), tolerance);
+  // Average, not min: a single bad nutrient drags growth rate down but does not block planting on its own.
+  // Only when all three nutrients are fully out of tolerance (nutrientMod === 0) is planting rejected.
+  // Mirrors F-SOIL-001's "recoverable" framing — fixing one nutrient is always meaningful progress.
   const nutrientMod = (nMod + pMod + kMod) / 3;
 
   if (nutrientMod === 0) {
@@ -92,5 +95,7 @@ export function checkCompatibility(seed: Seed, soil: Soil): CheckCompatibilityRe
     };
   }
 
+  // moistureLevel is an F-SOIL-001 input to the per-tick soilModifier (F-GROWTH-001) but is not
+  // evaluated here: moisture is dynamic and corrected by watering, not by seed or plot selection.
   return { outcome: 'compatible' };
 }

@@ -18,5 +18,6 @@ export function plotAvailability(plots: readonly Plot[]): PlotAvailabilityResult
       return { outcome: 'plot_available', plotId: plot.id };
     }
   }
+  // TODO: distinguish 'purchase' vs 'unlock' once plot progression data (campaign state, zone unlocks) is available.
   return { outcome: 'no_open_plots', nextAction: 'purchase' };
 }
