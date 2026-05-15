@@ -1,4 +1,4 @@
-import type { PlotId } from "./plant.js";
+import type { SoilId } from "./plot.js";
 
 /**
  * Soil defines the growing conditions inside a plot.
@@ -12,8 +12,8 @@ import type { PlotId } from "./plant.js";
  * @remarks Soil-seed fit computed by F-SOIL-001 → produces soilModifier for F-GROWTH-001.
  */
 export type Soil = {
-  /** Shares the ID of the plot this soil belongs to. 1:1 relationship in V1. */
-  id: PlotId;
+  /** Unique identifier for this soil record. Shares the same value as its Plot's ID — 1:1 relationship in V1. */
+  id: SoilId;
 
   /**
    * Inherent plot properties that are difficult or expensive to change.

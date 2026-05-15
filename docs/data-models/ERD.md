@@ -96,7 +96,7 @@ erDiagram
     }
 
     SOIL {
-        PlotId      id                  PK  "1-to-1 with Plot"
+        SoilId      id                  PK  "alias of PlotId; 1-to-1 with Plot in V1"
         string      texture                 "sand | sandy_loam | loam | clay_loam | clay"
         float       naturalDrainage         "0–1; base before amendments"
         float       basePhLevel             "natural resting pH"
