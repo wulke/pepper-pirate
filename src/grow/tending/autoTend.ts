@@ -1,4 +1,5 @@
 import type { Plant } from '../../types/plant.js';
+import { computeTendingModifier } from './tendingMath.js';
 
 /**
  * careScore floor when autoTendEnabled is true (F-TEND-001).
@@ -8,17 +9,6 @@ export const AUTO_TEND_FLOOR = 0.40;
 
 /** Per-tick decay factor applied to the gap between careScore and the floor (F-TEND-001). */
 const DECAY_FACTOR = 0.80;
-
-/**
- * F-TEND-001: maps careScore to tendingModifier with a breakpoint at 0.40.
- * Band: 0.90 (neglect) → 1.00 (idle baseline) → 1.15 (optimal active tending).
- */
-function computeTendingModifier(careScore: number): number {
-  if (careScore <= AUTO_TEND_FLOOR) {
-    return 0.90 + 0.25 * careScore;
-  }
-  return 1.00 + 0.15 * ((careScore - AUTO_TEND_FLOOR) / 0.60);
-}
 
 /**
  * Advances the plant's careScore through `ticks` decay steps using the F-TEND-001 rule.

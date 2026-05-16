@@ -1,4 +1,5 @@
 import type { Plant } from '../../types/plant.js';
+import { computeTendingModifier } from './tendingMath.js';
 
 /** The action types a player can perform when actively tending a plant. */
 export type TendingAction = 'watering' | 'soil_check' | 'pest_control';
@@ -12,33 +13,24 @@ const WATER_NEED_THRESHOLD = 0.50;
 /** soilQuality below this threshold is considered a real need; soil-check then qualifies. */
 const SOIL_NEED_THRESHOLD = 0.50;
 
-/**
- * F-TEND-001: maps careScore to tendingModifier with a breakpoint at 0.40.
- * Band: 0.90 (neglect) → 1.00 (idle baseline) → 1.15 (optimal active tending).
- */
-function computeTendingModifier(careScore: number): number {
-  const FLOOR = 0.40;
-  if (careScore <= FLOOR) {
-    return 0.90 + 0.25 * careScore;
-  }
-  return 1.00 + 0.15 * ((careScore - FLOOR) / 0.60);
-}
-
 /** Returns true when the plant has an active negative status effect matching the given category. */
 function hasActiveEffect(plant: Plant, category: 'pest' | 'disease'): boolean {
   return plant.health.activeEffects.some((e) => e.type === category);
 }
 
 /**
- * Applies a player tending action and returns the updated careScore and tendingModifier.
+ * Applies a player tending action and returns the updated careScore, tendingModifier, and
+ * lastTendedAtTick (when the action qualifies and a tick is provided).
  * Only qualified actions — those addressing a real plant need — grant a careScore bonus.
  * Repeated unnecessary actions yield no increase. Does not mutate the plant.
  * @remarks Implements GROW-005. Qualification rules per F-TEND-001 action qualification rule.
+ * TODO: F-TEND-001 anti-spam — use lastTendedAtTick + per-category cooldowns to suppress
+ * repeated same-category actions inside a short care window (open question in registry).
  */
 export function applyTendingAction(
   plant: Plant,
   action: TendingAction
-): { careScore: number; tendingModifier: number } {
+): { careScore: number; tendingModifier: number; lastTendedAtTick?: number } {
   let qualified = false;
 
   if (action === 'watering') {
@@ -53,5 +45,7 @@ export function applyTendingAction(
     ? Math.min(1.0, plant.tending.careScore + CARE_BONUS)
     : plant.tending.careScore;
 
+  // lastTendedAtTick requires the caller to supply the current tick, which is not yet threaded
+  // through this API — deferred until the anti-spam cooldown system is implemented.
   return { careScore, tendingModifier: computeTendingModifier(careScore) };
 }
