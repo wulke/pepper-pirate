@@ -29,3 +29,5 @@ export type {
 } from "./plot.js";
 
 export type { Soil } from "./soil.js";
+
+export type { BreedRoutingRequestedEvent } from "./events.js";
